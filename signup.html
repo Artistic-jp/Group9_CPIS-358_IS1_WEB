@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAU Restaurant - Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --leaf-green: #68705C;
+      --earth-brown: #A5A58D;
+      --cocoa: #CB997E;
+      --sand: #B7B7A4;
+      --light-cream: #FFE8D6;
+      --white: #ffffff;
+      --dark-text: #3F4238;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--light-cream);
+      color: var(--dark-text);
+    }
+
+    header {
+      background-color: var(--leaf-green);
+      color: var(--white);
+      padding: 22px 0;
+      text-align: center;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+    }
+    header p { font-style: italic; color: var(--light-cream); font-size: 0.9rem; }
+
+    nav {
+      background-color: var(--earth-brown);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+    nav ul { list-style: none; display: flex; justify-content: center; margin: 0; padding: 0; }
+    nav ul li a {
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 26px;
+      display: block;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: background 0.25s;
+    }
+    nav ul li a:hover, nav ul li a.active { background-color: var(--cocoa); }
+
+    .page-center {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 16px;
+    }
+
+    .auth-card {
+      width: min(440px, 100%);
+      background: var(--white);
+      border: 1px solid var(--sand);
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(63,66,56,0.1);
+      padding: 40px 36px;
+      animation: fadeUp 0.45s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-badge {
+      width: 52px; height: 52px;
+      background: var(--cocoa);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px;
+    }
+    .brand-badge svg { width: 26px; height: 26px; fill: var(--white); }
+
+    .auth-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      color: var(--leaf-green);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--earth-brown);
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+
+    .field { display: grid; gap: 7px; margin-bottom: 20px; }
+    .field label {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+    .field input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--sand);
+      border-radius: 8px;
+      font-size: 0.97rem;
+      font-family: 'DM Sans', sans-serif;
+      background: #FAFAF8;
+      color: var(--dark-text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input::placeholder { color: var(--earth-brown); }
+    .field input:focus {
+      outline: none;
+      border-color: var(--leaf-green);
+      box-shadow: 0 0 0 3px rgba(104,112,92,0.15);
+      background: var(--white);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: var(--cocoa);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+    }
+    .btn-primary:hover {
+      background: var(--leaf-green);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(63,66,56,0.2);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 0.88rem;
+      color: var(--earth-brown);
+    }
+    .auth-footer a { color: var(--cocoa); text-decoration: none; font-weight: 500; }
+    .auth-footer a:hover { text-decoration: underline; }
+
+    footer {
+      background-color: var(--leaf-green);
+      color: var(--white);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.88rem;
+    }
+    footer a { color: var(--cocoa); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>University Restaurant</h1>
+    <p>Student Well-being</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-center">
+    <div class="auth-card">
+
+      <div class="brand-badge">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </div>
+
+      <h2>Create account</h2>
+      <p class="subtitle">Join KAU Restaurant today</p>
+
+      <form action="#" method="post">
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" type="text" required autocomplete="name" placeholder="Your full name">
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@kau.edu.sa">
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" required autocomplete="new-password" placeholder="Create a password">
+        </div>
+        <button type="submit" class="btn-primary">Sign up</button>
+      </form>
+
+      <p class="auth-footer">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 KAU Restaurant. All Rights Reserved.</p>
+    <p><a href="#top">Back to Top</a></p>
+  </footer>
+
+</body>
+</html>

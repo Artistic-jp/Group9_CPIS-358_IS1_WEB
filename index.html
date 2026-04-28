@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAU Restaurant - Home</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* High Contrast Mode Styles */
+        body.high-contrast {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+        
+        body.high-contrast .container {
+            background-color: #1a1a1a !important;
+            color: #ffffff !important;
+            border-color: #666666 !important;
+        }
+        
+        body.high-contrast h1,
+        body.high-contrast h2,
+        body.high-contrast h3 {
+            color: #ffffff !important;
+        }
+
+        /* Problem Solution Grid Layout */
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        /* Footer Override for Internal Styles */
+        footer {
+            background-color: var(--leaf-green);
+            color: var(--white);
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        /* Responsive Grid */
+        @media (max-width: 768px) {
+            .problem-solution {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Contrast Button */
+        .contrast-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+    </style>
+    
+    <script>
+        // Embedded Script - Simple Version
+        function displayWelcome() {
+            const text = document.querySelector('.hero-text p');
+            if (text) {
+                const hour = new Date().getHours();
+                // Simple if-else for time-based message
+                if (hour < 12) {
+                    text.textContent = "Good Morning! Check our Breakfast Menu";
+                } else if (hour < 17) {
+                    text.textContent = "Good Afternoon! Enjoy our Lunch specials";
+                } else {
+                    text.textContent = "Good Evening! Try our Dinner combos";
+                }
+            }
+        }
+        // Run this function as soon as the page loads
+        document.addEventListener('DOMContentLoaded', displayWelcome);
+    </script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1 style="color: var(--white);">University Restaurant</h1>
+        <p>Student Well-being</p>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section>
+            <div class="hero">
+                <div class="hero-text">
+                    <h2>Welcome to KAU Restaurant</h2>
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision Section - Problem & Solution -->
+        <section>
+            <h2 style="text-align: center;">Our Vision</h2>
+            <article class="problem-solution">
+                <div class="card">
+                    <h3>Problem Statement</h3>
+                    <p>Students at KAU University often struggle with <strong>long queues</strong> during peak hours, making it difficult to find time for meals between classes. Additionally, there is limited <strong>menu visibility</strong>, causing uncertainty about available options and wait times.</p>
+                </div>
+                <div class="card">
+                    <h3>Project Solution</h3>
+                    <p>Our website provides <strong>real-time updates</strong> on menu availability and estimated wait times. Students can plan their visits better using our <strong>scheduling system</strong>, ensuring they get their meals without disrupting their academic schedules.</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- Explore Section - Image Link -->
+        <section>
+            <h2>Explore Our Restaurant</h2>
+            <div class="card text-center">
+                <p>Click on the image to learn more about us!</p>
+                <a href="about.html"><img src="images/res-main.png" alt="KAU Restaurant Interior" style="max-width: 100%; height: auto; border: 2px solid var(--sand); border-radius: 8px; cursor: pointer;"></a>
+            </div>
+        </section>
+
+        <!-- Weekly Menu Section -->
+        <section>
+            <h2>Weekly Menu</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Main Dish</th>
+                        <th>Side Dish</th>
+                        <th>Price (SAR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sunday</td>
+                        <td>Grilled Chicken</td>
+                        <td>Rice & Salad</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>Monday</td>
+                        <td>Beef Kabsa</td>
+                        <td>Dates & Salad</td>
+                        <td>18</td>
+                    </tr>
+                    <tr>
+                        <td>Tuesday</td>
+                        <td>Fish Curry</td>
+                        <td>Naan & Rice</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        <td>Chicken Mandi</td>
+                        <td>Sambosa & Salad</td>
+                        <td>17</td>
+                    </tr>
+                    <tr>
+                        <td>Thursday</td>
+                        <td>Shawarma Plate</td>
+                        <td>Fries & Salad</td>
+                        <td>16</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Benefits Section -->
+        <section>
+            <h2>Why Choose KAU Restaurant?</h2>
+            <div class="card">
+                <h3>Student Benefits</h3>
+                <ol>
+                    <li>Real-time queue updates to save your valuable study time</li>
+                    <li>Full menu visibility with nutritional information</li>
+                    <li>Online ordering with scheduled pickup times</li>
+                    <li>Student discounts on all meal plans</li>
+                    <li>Multiple payment options including university meal cards</li>
+                    <li>Vegetarian and special dietary options available</li>
+                    <li>Feedback system to continuously improve our service</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <!-- High Contrast Mode Button -->
+    <!-- Satisfies: Dynamic CSS requirement -->
+    <button class="btn contrast-btn" onclick="toggleHighContrast()">High Contrast Mode</button>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2026 KAU Restaurant. All Rights Reserved.</p>
+        <p><a href="#top">Back to Top</a></p>
+    </footer>
+
+    <!-- External Script -->
+    <script src="script.js"></script>
+</body>
+</html>

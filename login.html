@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAU Restaurant - Student Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Login Wrapper - Centers the form */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 200px);
+            padding: 40px 20px;
+        }
+
+        /* Login Form Container */
+        .login-form-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--white);
+            border: 1px solid var(--sand);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* Login Heading */
+        .login-form-container h2 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        /* Error Message */
+        #error-message {
+            margin-top: 15px;
+            font-weight: 600;
+            min-height: 20px;
+        }
+
+        /* Form Subtitle */
+        .login-form-container .subtitle {
+            color: var(--dark-text);
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        /* Form Group */
+        .login-form-container .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        /* Form Labels */
+        .login-form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--leaf-green);
+        }
+
+        /* Form Inputs */
+        .login-form-container input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--sand);
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* Input Focus State */
+        .login-form-container input:focus {
+            border-color: var(--leaf-green);
+            outline: none;
+            box-shadow: 0 0 5px rgba(104, 112, 92, 0.3);
+        }
+
+        /* Form Button */
+        .login-form-container .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Signup Link */
+        .signup-link {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .signup-link a {
+            color: var(--cocoa);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1 style="color: var(--white);">University Restaurant</h1>
+        <p>Student Well-being</p>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="login.html" class="active">Login</a></li>
+            <li><a href="about.html">About Us</a></li
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Login Form Section -->
+        <div class="login-wrapper">
+            <div class="login-form-container">
+                <h2 style="color: var(--leaf-green);">Student Login</h2>
+                <img src="images/res-logo.png" alt="KAU Restaurant Logo" style="width: 150px; height: auto; margin: 15px auto; display: block;">
+                
+                <p class="subtitle">Sign in to manage your orders</p>
+
+                <!-- Form with onsubmit event - Satisfies Events requirement -->
+                <form action="#" method="post" onsubmit="return validateLoginForm(event)">
+                    <div class="form-group">
+                        <label for="student-id">Student ID</label>
+                        <input type="text" id="student-id" name="student-id" placeholder="Enter your Student ID (7 digits)" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+                    </div>
+
+                    <!-- Error Message Display - Satisfies dynamic error display -->
+                    <div id="error-message"></div>
+
+                    <button type="submit" class="btn">Login</button>
+                </form>
+
+                <p class="signup-link">Don't have an account? <a href="signup.html">Sign up here</a></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2026 KAU University Restaurant. All Rights Reserved.</p>
+        <p><a href="#top">Back to Top</a></p>
+    </footer>
+
+    <!-- External Script -->
+    <script src="script.js"></script>
+</body>
+</html>

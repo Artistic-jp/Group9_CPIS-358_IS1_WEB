@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KAU Restaurant - About Us</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --leaf-green: #68705C;
+      --earth-brown: #A5A58D;
+      --cocoa: #CB997E;
+      --sand: #B7B7A4;
+      --light-cream: #FFE8D6;
+      --white: #ffffff;
+      --dark-text: #3F4238;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--light-cream);
+      color: var(--dark-text);
+    }
+
+    /* ── Header ── */
+    header {
+      background-color: var(--leaf-green);
+      color: var(--white);
+      padding: 22px 0;
+      text-align: center;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+    }
+    header p { font-style: italic; color: var(--light-cream); font-size: 0.9rem; }
+
+    /* ── Nav ── */
+    nav {
+      background-color: var(--earth-brown);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+    nav ul { list-style: none; display: flex; justify-content: center; margin: 0; padding: 0; }
+    nav ul li a {
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 26px;
+      display: block;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: background 0.25s;
+    }
+    nav ul li a:hover, nav ul li a.active { background-color: var(--cocoa); }
+
+    /* ── Page center ── */
+    .page-center {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 16px;
+    }
+
+    /* ── Card ── */
+    .about-card {
+      width: min(640px, 100%);
+      background: var(--white);
+      border: 1px solid var(--sand);
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(63,66,56,0.1);
+      overflow: hidden;
+      animation: fadeUp 0.45s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Hero banner inside card ── */
+    .card-banner {
+      background: var(--leaf-green);
+      padding: 36px 36px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-banner::before {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: 50%;
+      transform: translateX(-50%);
+      width: 120%; height: 60px;
+      background: var(--white);
+      border-radius: 50%;
+    }
+    .card-banner .icon-circle {
+      width: 64px; height: 64px;
+      background: var(--cocoa);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .card-banner .icon-circle svg { width: 32px; height: 32px; fill: var(--white); }
+    .card-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .card-banner p { color: var(--light-cream); font-size: 0.9rem; }
+
+    /* ── Body content ── */
+    .card-body { padding: 44px 36px 36px; }
+
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--dark-text);
+      margin-bottom: 32px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--sand);
+    }
+
+    /* ── Info blocks ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 500px) { .info-grid { grid-template-columns: 1fr; } }
+
+    .info-block {
+      background: #FAFAF8;
+      border: 1px solid var(--sand);
+      border-radius: 10px;
+      padding: 18px 20px;
+      transition: box-shadow 0.25s, transform 0.2s;
+    }
+    .info-block:hover {
+      box-shadow: 0 6px 18px rgba(63,66,56,0.12);
+      transform: translateY(-3px);
+    }
+    .info-block .block-icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+    .info-block h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--leaf-green);
+      margin-bottom: 4px;
+    }
+    .info-block p, .info-block a {
+      font-size: 0.9rem;
+      color: var(--dark-text);
+      text-decoration: none;
+      line-height: 1.5;
+    }
+    .info-block a { color: var(--cocoa); }
+    .info-block a:hover { text-decoration: underline; }
+
+    /* ── Contact section ── */
+    .contact-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--leaf-green);
+      margin-bottom: 16px;
+    }
+    .contact-list { list-style: none; padding: 0; display: grid; gap: 10px; }
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #FAFAF8;
+      border: 1px solid var(--sand);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .contact-list li:hover { background: var(--light-cream); }
+    .contact-list li .tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: var(--sand);
+      color: var(--dark-text);
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .contact-list a { color: var(--cocoa); text-decoration: none; }
+    .contact-list a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      background-color: var(--leaf-green);
+      color: var(--white);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.88rem;
+    }
+    footer a { color: var(--cocoa); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>University Restaurant</h1>
+    <p>Student Well-being</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="about.html" class="active">About Us</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-center">
+    <div class="about-card">
+
+      <!-- Banner -->
+      <div class="card-banner">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>
+          </svg>
+        </div>
+        <h2>About Us</h2>
+        <p>Serving KAU students with quality and care</p>
+      </div>
+
+      <!-- Body -->
+      <div class="card-body">
+
+        <p class="about-text">
+          Welcome to <strong>KAU Restaurant</strong> — your on-campus destination for fresh, affordable, and culturally rich meals. We are dedicated to supporting student well-being by providing nutritious food, convenient ordering, and a welcoming dining environment that feels like a second home between lectures.
+        </p>
+
+        <!-- Info highlights -->
+        <div class="info-grid">
+          <div class="info-block">
+            <div class="block-icon">🕐</div>
+            <h3>Opening Hours</h3>
+            <p>Sun – Thu: 7:00 AM – 8:00 PM<br>Fri – Sat: Closed</p>
+          </div>
+          <div class="info-block">
+            <div class="block-icon">📍</div>
+            <h3>Location</h3>
+            <p>Main Campus, Building 4<br>King Abdulaziz University, Jeddah</p>
+          </div>
+          <div class="info-block">
+            <div class="block-icon">🍽️</div>
+            <h3>Capacity</h3>
+            <p>200+ seats<br>Indoor & outdoor dining</p>
+          </div>
+          <div class="info-block">
+            <div class="block-icon">💳</div>
+            <h3>Payment</h3>
+            <p>Cash, Mada, Apple Pay<br>& University Meal Cards</p>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="contact-section">
+          <h3>Get in Touch</h3>
+          <ul class="contact-list">
+            <li>
+              <span class="tag">Email</span>
+              <a href="mailto:restaurant@kau.edu.sa">restaurant@kau.edu.sa</a>
+            </li>
+            <li>
+              <span class="tag">Email</span>
+              <a href="mailto:support@kau.edu.sa">support@kau.edu.sa</a>
+            </li>
+            <li>
+              <span class="tag">Phone</span>
+              <a href="tel:+966126400000">+966 12 640 0000</a>
+            </li>
+            <li>
+              <span class="tag">Phone</span>
+              <a href="tel:+966126400001">+966 12 640 0001</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 KAU Restaurant. All Rights Reserved.</p>
+    <p><a href="#top">Back to Top</a></p>
+  </footer>
+
+</body>
+</html>

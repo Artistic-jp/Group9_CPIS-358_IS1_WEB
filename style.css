@@ -1,0 +1,303 @@
+/* KAU University Restaurant - Earth Tone Global Styles */
+
+:root {
+    --leaf-green: #68705C;
+    --earth-brown: #A5A58D;
+    --cocoa: #CB997E;
+    --sand: #B7B7A4;
+    --light-cream: #FFE8D6;
+    --white: #ffffff;
+    --dark-text: #3F4238;
+}
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-text);
+    background-color: var(--light-cream);
+    min-height: 100vh;
+}
+
+/* Header Styles */
+header {
+    background-color: var(--leaf-green);
+    color: var(--white);
+    padding: 25px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 5px;
+}
+
+header p {
+    font-style: italic;
+    color: var(--light-cream);
+}
+
+/* Navigation Styles */
+nav {
+    background-color: var(--earth-brown);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    padding: 15px 25px;
+    display: block;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: var(--cocoa);
+}
+
+nav ul li a.active {
+    background-color: var(--cocoa);
+    color: var(--white);
+}
+
+/* Container Styles */
+.container {
+    width: 85%;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: var(--white);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--sand);
+    border-radius: 8px;
+}
+
+/* Section Styles */
+section {
+    padding: 20px 0;
+}
+
+/* Heading Styles */
+h1, h2, h3 {
+    color: var(--leaf-green);
+    margin-bottom: 15px;
+}
+
+/* Button Styles */
+.btn {
+    padding: 12px 24px;
+    background-color: var(--cocoa);
+    color: var(--white);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: var(--earth-brown);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(63, 66, 56, 0.3);
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--white);
+    border: 1px solid var(--sand);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(63, 66, 56, 0.1);
+    padding: 20px;
+    margin: 15px 0;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 16px rgba(63, 66, 56, 0.2);
+}
+
+/* Hero Styles */
+.hero {
+    position: relative;
+    background-image: url('res-main.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+/* Hero Text Styles */
+.hero-text {
+    position: relative;
+    z-index: 10;
+    background-color: rgba(104, 112, 92, 0.9);
+    color: var(--white);
+    padding: 30px 50px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.hero-text h2 {
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(63, 66, 56, 0.1);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid var(--sand);
+}
+
+table th {
+    background-color: var(--sand);
+    color: var(--dark-text);
+}
+
+table tr:nth-child(even) {
+    background-color: var(--light-cream);
+}
+
+table tr:hover {
+    background-color: var(--earth-brown);
+}
+
+/* List Styles */
+ul, ol {
+    margin: 15px 0;
+    padding-left: 30px;
+}
+
+ul li, ol li {
+    margin: 10px 0;
+    padding-left: 10px;
+}
+
+ul li::marker {
+    color: var(--cocoa);
+}
+
+ol li::marker {
+    color: var(--leaf-green);
+    font-weight: 600;
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--leaf-green);
+    color: var(--white);
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer a {
+    color: var(--cocoa);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Form Styles */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--leaf-green);
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--sand);
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus,
+form input[type="email"]:focus {
+    border-color: var(--leaf-green);
+    outline: none;
+    box-shadow: 0 0 5px rgba(104, 112, 92, 0.3);
+}
+
+form .btn {
+    width: 100%;
+}
+
+/* Login Image Styles */
+.login-image {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(63, 66, 56, 0.2);
+}
+
+/* Image Map Styles */
+img[usemap] {
+    border: 2px solid var(--sand);
+    border-radius: 8px;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
