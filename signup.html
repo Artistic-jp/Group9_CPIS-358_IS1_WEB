@@ -82,6 +82,11 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     .brand-badge {
       width: 52px; height: 52px;
       background: var(--cocoa);
@@ -198,7 +203,7 @@
       <h2>Create account</h2>
       <p class="subtitle">Join KAU Restaurant today</p>
 
-      <form action="#" method="post">
+      <form id="signupForm" action="#" method="post">
         <div class="field">
           <label for="fullName">Full name</label>
           <input id="fullName" name="fullName" type="text" required autocomplete="name" placeholder="Your full name">
@@ -214,7 +219,13 @@
         <button type="submit" class="btn-primary">Sign up</button>
       </form>
 
-      <p class="auth-footer">Already have an account? <a href="login.html">Sign in</a></p>
+      <div id="successMsg" style="display:none; text-align:center; margin-top:24px; animation: slideInUp 0.6s ease;">
+        <div style="font-size:4rem; margin-bottom:12px;">✨</div>
+        <h3 style="color:var(--leaf-green); margin-bottom:8px; font-family:'Playfair Display',serif; font-size:1.4rem;">Welcome to KAU!</h3>
+        <p style="color:var(--earth-brown);">Your account is ready. Enjoy your meals! 🍽️</p>
+      </div>
+
+      <p class="auth-footer" id="footerText">Already have an account? <a href="login.html">Sign in</a></p>
     </div>
   </div>
 
@@ -222,6 +233,41 @@
     <p>&copy; 2026 KAU Restaurant. All Rights Reserved.</p>
     <p><a href="#top">Back to Top</a></p>
   </footer>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('signupForm').style.display = 'none';
+      document.getElementById('footerText').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      
+      // Confetti animation
+      createConfetti();
+    });
+
+    function createConfetti() {
+      for(let i = 0; i < 30; i++) {
+        let conf = document.createElement('div');
+        conf.style.position = 'fixed';
+        conf.style.left = Math.random() * 100 + '%';
+        conf.style.top = '-10px';
+        conf.style.fontSize = Math.random() * 20 + 10 + 'px';
+        conf.style.opacity = '1';
+        conf.style.pointerEvents = 'none';
+        conf.style.zIndex = '9999';
+        conf.textContent = ['🎉', '✨', '🌟', '🎊'][Math.floor(Math.random() * 4)];
+        document.body.appendChild(conf);
+        
+        let duration = Math.random() * 2 + 2;
+        conf.animate([
+          { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+          { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+        ], { duration: duration * 1000, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' });
+        
+        setTimeout(() => conf.remove(), duration * 1000);
+      }
+    }
+  </script>
 
 </body>
 </html>
