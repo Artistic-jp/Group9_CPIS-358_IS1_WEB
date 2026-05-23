@@ -1,160 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KAU Restaurant - Student Login</title>
+    <meta name="description" content="Login to KAU University Restaurant to place and manage your food orders online.">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Login Wrapper - Centers the form */
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
         .login-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: calc(100vh - 200px);
+            min-height: calc(100vh - 220px);
             padding: 40px 20px;
+            background: linear-gradient(135deg, #f5f0eb 0%, #ffe8d6 100%);
         }
 
-        /* Login Form Container */
-        .login-form-container {
+        .login-card {
             width: 100%;
-            max-width: 400px;
-            background-color: var(--white);
-            border: 1px solid var(--sand);
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 30px;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(63, 66, 56, 0.15);
+            padding: 40px 36px;
             text-align: center;
+            animation: slideUp 0.5s ease;
         }
 
-        /* Login Heading */
-        .login-form-container h2 {
-            font-size: 1.5em;
-            margin-bottom: 5px;
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Error Message */
-        #error-message {
-            margin-top: 15px;
-            font-weight: 600;
-            min-height: 20px;
-        }
-
-        /* Form Subtitle */
-        .login-form-container .subtitle {
-            color: var(--dark-text);
-            margin-bottom: 20px;
-            font-size: 0.9em;
-        }
-
-        /* Form Group */
-        .login-form-container .form-group {
-            text-align: left;
-            margin-bottom: 15px;
-        }
-
-        /* Form Labels */
-        .login-form-container label {
+        .login-logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 16px;
             display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
+            border: 3px solid var(--cocoa);
+            box-shadow: 0 4px 16px rgba(203, 153, 126, 0.3);
+        }
+
+        .login-card h2 {
+            font-size: 1.6em;
             color: var(--leaf-green);
+            margin-bottom: 4px;
         }
 
-        /* Form Inputs */
-        .login-form-container input {
+        .login-card .subtitle {
+            color: #888;
+            font-size: 0.88em;
+            margin-bottom: 28px;
+        }
+
+        /* DB Status Banner */
+        #db-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.82em;
+            font-weight: 600;
+            margin-bottom: 18px;
+            transition: all 0.3s;
+        }
+
+        #db-status.loading {
+            background: #fff8e1;
+            color: #b8860b;
+            border: 1px solid #f0c040;
+        }
+
+        #db-status.ready {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        #db-status.error {
+            background: #fdecea;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0;
+            animation: pulse 1.5s infinite;
+        }
+
+        #db-status.ready .status-dot,
+        #db-status.error .status-dot {
+            animation: none;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.88em;
+            color: var(--leaf-green);
+            letter-spacing: 0.3px;
+        }
+
+        .form-group input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--sand);
-            border-radius: 5px;
+            padding: 13px 16px;
+            border: 1.5px solid #e0ddd8;
+            border-radius: 10px;
             font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: #fafaf8;
+            color: var(--dark-text);
         }
 
-        /* Input Focus State */
-        .login-form-container input:focus {
+        .form-group input:focus {
             border-color: var(--leaf-green);
             outline: none;
-            box-shadow: 0 0 5px rgba(104, 112, 92, 0.3);
+            box-shadow: 0 0 0 3px rgba(104, 112, 92, 0.12);
+            background: #fff;
         }
 
-        /* Form Button */
-        .login-form-container .btn {
+        .form-group input::placeholder {
+            color: #bbb;
+        }
+
+        #error-message {
+            margin: 4px 0 14px;
+            font-size: 0.85em;
+            font-weight: 600;
+            min-height: 18px;
+            text-align: left;
+            padding: 0 4px;
+        }
+
+        .login-btn {
             width: 100%;
-            margin-top: 10px;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--cocoa), #b8836b);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+            font-family: inherit;
         }
 
-        /* Signup Link */
+        .login-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #b8836b, var(--leaf-green));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(203, 153, 126, 0.4);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
         .signup-link {
-            margin-top: 20px;
-            font-size: 0.9em;
+            margin-top: 22px;
+            font-size: 0.88em;
+            color: #888;
         }
 
         .signup-link a {
             color: var(--cocoa);
+            font-weight: 700;
             text-decoration: none;
-            font-weight: 600;
         }
 
         .signup-link a:hover {
             text-decoration: underline;
         }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #3F4238;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 9999;
+            transition: transform 0.35s ease;
+            white-space: nowrap;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #toast.success {
+            background: #2e7d32;
+        }
+
+        #toast.error {
+            background: #c62828;
+        }
+
+        /* Demo Credentials Helper */
+        .demo-hint {
+            background: #f5f2ee;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-top: 18px;
+            font-size: 0.8em;
+            color: #888;
+            text-align: left;
+        }
+
+        .demo-hint strong {
+            color: var(--leaf-green);
+        }
     </style>
 </head>
+
 <body>
-    <!-- Header Section -->
+    <!-- Header -->
     <header>
-        <h1 style="color: var(--white);">University Restaurant</h1>
+        <div class="header-icons">
+            <div class="icon-item">
+                <img src="images/user.png" alt="User" />
+                <span id="user-link"><a href="login.html" style="font-weight:700;">Log in</a></span>
+            </div>
+            <div class="icon-item">
+                <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart" /></a>
+                <a href="cart.html"><span class="cart-count" id="cart-badge">(0)</span></a>
+            </div>
+        </div>
+        <h1 style="color:var(--white);">University Restaurant</h1>
         <p>Student Well-being</p>
     </header>
 
-    <!-- Navigation Menu -->
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="login.html" class="active">Login</a></li>
-            <li><a href="about.html">About Us</a></li
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="about.html">About Us</a></li>
         </ul>
     </nav>
 
     <main>
-        <!-- Login Form Section -->
         <div class="login-wrapper">
-            <div class="login-form-container">
-                <h2 style="color: var(--leaf-green);">Student Login</h2>
-                <img src="images/res-logo.png" alt="KAU Restaurant Logo" style="width: 150px; height: auto; margin: 15px auto; display: block;">
-                
+            <div class="login-card">
+                <img src="images/res-logo.png" alt="KAU Restaurant Logo" class="login-logo">
+                <h2>Student Login</h2>
                 <p class="subtitle">Sign in to manage your orders</p>
 
-                <!-- Form with onsubmit event - Satisfies Events requirement -->
-                <form action="#" method="post" onsubmit="return validateLoginForm(event)">
-                    <div class="form-group">
-                        <label for="student-id">Student ID</label>
-                        <input type="text" id="student-id" name="student-id" placeholder="Enter your Student ID (7 digits)" required>
-                    </div>
+                <!-- Database Status -->
+                <div id="db-status" class="loading">
+                    <span class="status-dot"></span>
+                    <span id="db-status-text">Connecting to database…</span>
+                </div>
 
+                <form id="login-form" onsubmit="return validateLoginForm(event)">
+                    <div class="form-group">
+                        <label for="student-id">Student ID (7 digits)</label>
+                        <input type="text" id="student-id" placeholder="e.g. 1234567" required maxlength="7"
+                            autocomplete="username">
+                    </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+                        <input type="password" id="password" placeholder="Enter your password" required
+                            autocomplete="current-password">
                     </div>
-
-                    <!-- Error Message Display - Satisfies dynamic error display -->
                     <div id="error-message"></div>
-
-                    <button type="submit" class="btn">Login</button>
+                    <button type="submit" class="login-btn" id="login-btn" disabled>Login</button>
                 </form>
+
+                <div class="demo-hint">
+                    💡 <strong>Tip:</strong> If the database has no users, you can <a href="signup.html"
+                        style="color:var(--cocoa);font-weight:600;">sign up</a> first — your account will be saved
+                    locally and work right away.
+                </div>
 
                 <p class="signup-link">Don't have an account? <a href="signup.html">Sign up here</a></p>
             </div>
         </div>
     </main>
 
-    <!-- Footer Section -->
     <footer>
         <p>&copy; 2026 KAU University Restaurant. All Rights Reserved.</p>
         <p><a href="#top">Back to Top</a></p>
     </footer>
 
-    <!-- External Script -->
+    <!-- Toast Notification -->
+    <div id="toast"></div>
+
     <script src="script.js"></script>
+
 </body>
+
 </html>

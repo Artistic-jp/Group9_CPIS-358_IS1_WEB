@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +12,13 @@
             background-color: #000000 !important;
             color: #ffffff !important;
         }
-        
+
         body.high-contrast .container {
             background-color: #1a1a1a !important;
             color: #ffffff !important;
             border-color: #666666 !important;
         }
-        
+
         body.high-contrast h1,
         body.high-contrast h2,
         body.high-contrast h3 {
@@ -46,7 +47,7 @@
                 grid-template-columns: 1fr;
             }
         }
-        
+
         /* Contrast Button */
         .contrast-btn {
             position: fixed;
@@ -57,7 +58,7 @@
             z-index: 1000;
         }
     </style>
-    
+
     <script>
         // Embedded Script - Simple Version
         function displayWelcome() {
@@ -78,10 +79,21 @@
         document.addEventListener('DOMContentLoaded', displayWelcome);
     </script>
 </head>
+
 <body>
     <!-- Header Section -->
     <header>
-        <h1 style="color: var(--white);">University Restaurant</h1>
+        <div class="header-icons">
+            <div class="icon-item">
+                <img src="images/user.png" alt="User" />
+                <span id="user-link"><a href="login.html" style="font-weight: 700;">Log in</a></span>
+            </div>
+            <div class="icon-item">
+                <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart" /></a>
+                <a href="cart.html"><span class="cart-count" id="cart-badge">(0)</span></a>
+            </div>
+        </div>
+        <h1 style="color: #ffff">University Restaurant</h1>
         <p>Student Well-being</p>
     </header>
 
@@ -89,7 +101,7 @@
     <nav>
         <ul>
             <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="login.html">Login</a></li>
+            <li><a href="menu.html">Menu</a></li>
             <li><a href="about.html">About Us</a></li>
         </ul>
     </nav>
@@ -111,11 +123,16 @@
             <article class="problem-solution">
                 <div class="card">
                     <h3>Problem Statement</h3>
-                    <p>Students at KAU University often struggle with <strong>long queues</strong> during peak hours, making it difficult to find time for meals between classes. Additionally, there is limited <strong>menu visibility</strong>, causing uncertainty about available options and wait times.</p>
+                    <p>Students at KAU University often struggle with <strong>long queues</strong> during peak hours,
+                        making it difficult to find time for meals between classes. Additionally, there is limited
+                        <strong>menu visibility</strong>, causing uncertainty about available options and wait times.
+                    </p>
                 </div>
                 <div class="card">
                     <h3>Project Solution</h3>
-                    <p>Our website provides <strong>real-time updates</strong> on menu availability and estimated wait times. Students can plan their visits better using our <strong>scheduling system</strong>, ensuring they get their meals without disrupting their academic schedules.</p>
+                    <p>Our website provides <strong>real-time updates</strong> on menu availability and estimated wait
+                        times. Students can plan their visits better using our <strong>scheduling system</strong>,
+                        ensuring they get their meals without disrupting their academic schedules.</p>
                 </div>
             </article>
         </section>
@@ -125,7 +142,8 @@
             <h2>Explore Our Restaurant</h2>
             <div class="card text-center">
                 <p>Click on the image to learn more about us!</p>
-                <a href="about.html"><img src="images/res-main.png" alt="KAU Restaurant Interior" style="max-width: 100%; height: auto; border: 2px solid var(--sand); border-radius: 8px; cursor: pointer;"></a>
+                <a href="about.html"><img src="images/res-main.png" alt="KAU Restaurant Interior"
+                        style="max-width: 100%; height: auto; border: 2px solid var(--sand); border-radius: 8px; cursor: pointer;"></a>
             </div>
         </section>
 
@@ -204,7 +222,50 @@
         <p><a href="#top">Back to Top</a></p>
     </footer>
 
+    <script>
+        // ── Update cart badge from localStorage ───────────────────────────
+        function updateCartBadge() {
+            var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            var total = cart.reduce(function (sum, item) { return sum + (item.qty || 0); }, 0);
+            var badge = document.getElementById('cart-badge');
+            if (badge) badge.textContent = '(' + total + ')';
+        }
+
+        // ── Show logged-in student name + logout link ──────────────────────
+        function updateUserHeader() {
+            var name = localStorage.getItem('studentName');
+            var sid = localStorage.getItem('studentID');
+            var userLink = document.getElementById('user-link');
+            if (!userLink) return;
+            if (name && sid) {
+                userLink.innerHTML =
+                    '<span style="color:#FFE8D6;font-weight:600;">' + name + '</span>' +
+                    ' <a href="login.html" onclick="logout()" style="color:#CB997E;font-size:0.8em;">(Logout)</a>';
+            } else {
+                userLink.innerHTML = '<a href="login.html" style="font-weight:700;">Log in</a>';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('studentID');
+            localStorage.removeItem('studentName');
+            // cart stays — they may want to keep browsing
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            updateUserHeader();
+            updateCartBadge();
+        });
+
+        // Live update if another tab changes localStorage (e.g. added item in menu tab)
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'cart') updateCartBadge();
+            if (e.key === 'studentName' || e.key === 'studentID') updateUserHeader();
+        });
+    </script>
     <!-- External Script -->
     <script src="script.js"></script>
 </body>
+
 </html>

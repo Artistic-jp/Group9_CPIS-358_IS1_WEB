@@ -1,0 +1,46 @@
+@{
+    ViewBag.Title = "Student Login";
+}
+<!-- Satisfies: Forms - Login form with Student ID and Password -->
+<!-- Satisfies: Using Cookies - Remember Me checkbox / auto-fill -->
+
+<div class="login-wrapper">
+    <div class="login-form-container">
+        <h2 style="color: #68705C;">Student Login</h2>
+        <p class="subtitle">Sign in to manage your orders</p>
+
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div style="color: red; font-weight: 600; margin-bottom: 15px;">@ViewBag.Error</div>
+        }
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label for="studentID">Student ID (7 digits, numeric only)</label>
+                <!-- Satisfies: Cookies - auto-fills from cookie value if exists -->
+                <input type="text" id="studentID" name="studentID" placeholder="Enter 7-digit Student ID"
+                       value="@(ViewBag.RememberedID ?? "")" required maxlength="7" pattern="[0-9]{7}"
+                       title="Student ID must be exactly 7 digits, numbers only.">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+            </div>
+
+            <!-- Satisfies: Using Cookies - Remember Me checkbox -->
+            <div class="form-group" style="text-align: left;">
+                <label style="display: inline; font-weight: normal;">
+                    <input type="checkbox" name="rememberMe" value="true"
+                           @(ViewBag.RememberMe == true ? "checked" : "") />
+                    Remember Me
+                </label>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+        }
+    </div>
+</div>

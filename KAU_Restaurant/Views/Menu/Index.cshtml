@@ -1,0 +1,41 @@
+@model List<KAU_Restaurant.Models.Meal>
+@{
+    ViewBag.Title = "Weekly Menu";
+}
+
+<!-- Satisfies: CRUD Read - Menu displayed dynamically from SQLite database -->
+
+<h2 class="text-center">Weekly Menu</h2>
+<p class="text-center">Our daily offerings, freshly prepared</p>
+
+@if (Model != null && Model.Count > 0)
+{
+    <!-- Satisfies: foreach loop to display meals dynamically -->
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Meal</th>
+                <th>Category</th>
+                <th>Price (SAR)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var meal in Model)
+            {
+                <tr>
+                    <td>@meal.DayOfWeek</td>
+                    <td>@meal.MealName</td>
+                    <td>@meal.Category</td>
+                    <td>@meal.Price.ToString("0.00")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="card text-center">
+        <p>No menu items available at this time.</p>
+    </div>
+}

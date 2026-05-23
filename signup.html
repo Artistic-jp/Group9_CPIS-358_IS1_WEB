@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KAU Restaurant - Sign Up</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --leaf-green: #68705C;
@@ -16,7 +19,11 @@
       --dark-text: #3F4238;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -33,21 +40,35 @@
       padding: 22px 0;
       text-align: center;
     }
+
     header h1 {
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
       margin-bottom: 4px;
     }
-    header p { font-style: italic; color: var(--light-cream); font-size: 0.9rem; }
+
+    header p {
+      font-style: italic;
+      color: var(--light-cream);
+      font-size: 0.9rem;
+    }
 
     nav {
       background-color: var(--earth-brown);
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     }
-    nav ul { list-style: none; display: flex; justify-content: center; margin: 0; padding: 0; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+
     nav ul li a {
       color: var(--white);
       text-decoration: none;
@@ -57,7 +78,11 @@
       font-size: 0.95rem;
       transition: background 0.25s;
     }
-    nav ul li a:hover, nav ul li a.active { background-color: var(--cocoa); }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: var(--cocoa);
+    }
 
     .page-center {
       flex: 1;
@@ -72,24 +97,39 @@
       background: var(--white);
       border: 1px solid var(--sand);
       border-radius: 14px;
-      box-shadow: 0 16px 40px rgba(63,66,56,0.1);
+      box-shadow: 0 16px 40px rgba(63, 66, 56, 0.1);
       padding: 40px 36px;
       animation: fadeUp 0.45s ease both;
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .brand-badge {
-      width: 52px; height: 52px;
+      width: 52px;
+      height: 52px;
       background: var(--cocoa);
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: 0 auto 22px;
     }
-    .brand-badge svg { width: 26px; height: 26px; fill: var(--white); }
+
+    .brand-badge svg {
+      width: 26px;
+      height: 26px;
+      fill: var(--white);
+    }
 
     .auth-card h2 {
       font-family: 'Playfair Display', serif;
@@ -98,6 +138,7 @@
       text-align: center;
       margin-bottom: 6px;
     }
+
     .subtitle {
       text-align: center;
       color: var(--earth-brown);
@@ -105,12 +146,18 @@
       margin-bottom: 28px;
     }
 
-    .field { display: grid; gap: 7px; margin-bottom: 20px; }
+    .field {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 20px;
+    }
+
     .field label {
       font-size: 0.88rem;
       font-weight: 500;
       color: var(--dark-text);
     }
+
     .field input {
       width: 100%;
       padding: 11px 14px;
@@ -122,11 +169,15 @@
       color: var(--dark-text);
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .field input::placeholder { color: var(--earth-brown); }
+
+    .field input::placeholder {
+      color: var(--earth-brown);
+    }
+
     .field input:focus {
       outline: none;
       border-color: var(--leaf-green);
-      box-shadow: 0 0 0 3px rgba(104,112,92,0.15);
+      box-shadow: 0 0 0 3px rgba(104, 112, 92, 0.15);
       background: var(--white);
     }
 
@@ -144,12 +195,16 @@
       margin-top: 4px;
       transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
     }
+
     .btn-primary:hover {
       background: var(--leaf-green);
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(63,66,56,0.2);
+      box-shadow: 0 6px 16px rgba(63, 66, 56, 0.2);
     }
-    .btn-primary:active { transform: translateY(0); }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
 
     .auth-footer {
       text-align: center;
@@ -157,8 +212,59 @@
       font-size: 0.88rem;
       color: var(--earth-brown);
     }
-    .auth-footer a { color: var(--cocoa); text-decoration: none; font-weight: 500; }
-    .auth-footer a:hover { text-decoration: underline; }
+
+    .auth-footer a {
+      color: var(--cocoa);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Header icons (user & cart) ── */
+    .header-icons {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: white;
+      font-size: 0.95em;
+      font-weight: 500;
+    }
+
+    .header-icons .icon-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-icons .icon-item img {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+    }
+
+    .header-icons .icon-item a {
+      color: #FFE8D6;
+      text-decoration: none;
+    }
+
+    .header-icons .icon-item a:hover {
+      text-decoration: underline;
+    }
+
+    .cart-count {
+      font-weight: 700;
+      color: #FFE8D6;
+    }
+
+    header {
+      position: relative;
+    }
 
     footer {
       background-color: var(--leaf-green);
@@ -167,13 +273,31 @@
       padding: 20px;
       font-size: 0.88rem;
     }
-    footer a { color: var(--cocoa); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+
+    footer a {
+      color: var(--cocoa);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
+
 <body>
 
   <header>
+    <div class="header-icons">
+      <div class="icon-item">
+        <img src="images/user.png" alt="User" />
+        <span id="user-link"><a href="login.html">Log in</a></span>
+      </div>
+      <div class="icon-item">
+        <a href="cart.html"><img src="images/shopping-cart.png" alt="Cart" /></a>
+        <a href="cart.html"><span class="cart-count">(0)</span></a>
+      </div>
+    </div>
     <h1>University Restaurant</h1>
     <p>Student Well-being</p>
   </header>
@@ -181,7 +305,7 @@
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="login.html">Login</a></li>
+      <li><a href="menu.html">Menu</a></li>
       <li><a href="about.html">About Us</a></li>
     </ul>
   </nav>
@@ -191,27 +315,34 @@
 
       <div class="brand-badge">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          <path
+            d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
         </svg>
       </div>
 
       <h2>Create account</h2>
       <p class="subtitle">Join KAU Restaurant today</p>
 
-      <form action="#" method="post">
+
+      <div id="signup-error" style="color:red;font-weight:600;text-align:center;min-height:20px;margin-bottom:8px;">
+      </div>
+
+      <form id="signup-form" onsubmit="return signup(event)">
         <div class="field">
-          <label for="fullName">Full name</label>
-          <input id="fullName" name="fullName" type="text" required autocomplete="name" placeholder="Your full name">
+          <label for="signupSid" style="color: var(--leaf-green); font-weight: 600;">Student ID <span
+              style="color: var(--earth-brown); font-weight: 400;">(7 digits)</span></label>
+          <input id="signupSid" type="text" required maxlength="7" placeholder="Enter 7-digit Student ID"
+            pattern="[0-9]{7}" inputmode="numeric">
         </div>
         <div class="field">
-          <label for="email">Email address</label>
-          <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@kau.edu.sa">
+          <label for="signupName">Full name</label>
+          <input id="signupName" type="text" required placeholder="Your full name">
         </div>
         <div class="field">
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" required autocomplete="new-password" placeholder="Create a password">
+          <label for="signupPassword">Password</label>
+          <input id="signupPassword" type="password" required placeholder="Create a password">
         </div>
-        <button type="submit" class="btn-primary">Sign up</button>
+        <button type="submit" class="btn-primary" id="signup-btn">Sign up</button>
       </form>
 
       <p class="auth-footer">Already have an account? <a href="login.html">Sign in</a></p>
@@ -223,5 +354,67 @@
     <p><a href="#top">Back to Top</a></p>
   </footer>
 
+  <script>
+    function signup(event) {
+      event.preventDefault();
+      var sid = document.getElementById('signupSid').value.trim();
+      var fullName = document.getElementById('signupName').value.trim();
+      var pass = document.getElementById('signupPassword').value;
+      var errDiv = document.getElementById('signup-error');
+      var btn = document.getElementById('signup-btn');
+
+      errDiv.style.color = 'red';
+      errDiv.textContent = '';
+
+      if (sid.length !== 7 || isNaN(sid)) {
+        errDiv.textContent = '⚠ Student ID must be exactly 7 digits.';
+        return false;
+      }
+      if (fullName.length < 2) {
+        errDiv.textContent = '⚠ Please enter a valid full name.';
+        return false;
+      }
+      if (pass.length < 3) {
+        errDiv.textContent = '⚠ Password must be at least 3 characters.';
+        return false;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Creating account…';
+
+      // Save to localStorage
+      var localUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+      if (localUsers.some(function (u) { return String(u.sid) === sid; })) {
+        errDiv.textContent = '⚠ Student ID already registered locally.';
+        btn.disabled = false;
+        btn.textContent = 'Sign up';
+        return false;
+      }
+      
+      localUsers.push({ sid: sid, name: fullName, pass: pass });
+      localStorage.setItem('registeredUsers', JSON.stringify(localUsers));
+      errDiv.style.color = '#2e7d32';
+      errDiv.textContent = '✓ Account saved locally. Redirecting…';
+      setTimeout(function () { window.location.href = 'login.html'; }, 1400);
+      return false;
+    }
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var name = localStorage.getItem('studentName');
+      var sid = localStorage.getItem('studentID');
+      var userLink = document.getElementById('user-link');
+      if (name && sid) {
+        userLink.innerHTML = '<span style="color:#FFE8D6;font-weight:600;">' + name + '</span> <a href="login.html" onclick="logout()" style="color:#CB997E;font-size:0.8em;">(Logout)</a>';
+      }
+    });
+    function logout() {
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('studentID');
+      localStorage.removeItem('studentName');
+    }
+  </script>
+
 </body>
+
 </html>

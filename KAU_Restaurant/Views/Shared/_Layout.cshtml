@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Title - KAU Restaurant</title>
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #FFE8D6; color: #3F4238; }
+        header { background: #68705C; color: white; text-align: center; padding: 25px 0; position: relative; }
+        header h1 { margin-bottom: 5px; }
+        header p { font-style: italic; margin: 0; }
+
+        /* Satisfies: Using Sessions - Top-right icons with Flexbox */
+        .header-icons {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: white;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+        .header-icons .icon-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-icons .icon-item img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
+        .header-icons .icon-item a {
+            color: #FFE8D6;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .header-icons .icon-item a:hover {
+            text-decoration: underline;
+        }
+        .cart-count {
+            font-weight: 700;
+            color: #FFE8D6;
+        }
+
+        nav { background: #A5A58D; padding: 0; position: sticky; top: 0; z-index: 1000; }
+        nav ul { list-style: none; display: flex; justify-content: center; margin: 0; padding: 0; }
+        nav ul li a { color: white; text-decoration: none; padding: 15px 25px; display: block; font-weight: 500; transition: 0.3s; }
+        nav ul li a:hover { background: #CB997E; }
+        nav ul li a.active { background: #CB997E; }
+        .container { width: 85%; margin: 30px auto; padding: 30px; background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #B7B7A4; border-radius: 8px; }
+        footer { background: #68705C; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+        footer a { color: #CB997E; text-decoration: none; }
+        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 200px); padding: 40px 20px; }
+        .login-form-container { width: 100%; max-width: 400px; background: white; border: 1px solid #B7B7A4; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 30px; text-align: center; }
+        .login-form-container .form-group { text-align: left; margin-bottom: 15px; }
+        .login-form-container label { display: block; margin-bottom: 5px; font-weight: 600; color: #68705C; }
+        .login-form-container input { width: 100%; padding: 12px; border: 1px solid #B7B7A4; border-radius: 5px; font-size: 14px; }
+        .btn { padding: 12px 24px; background: #CB997E; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 16px; display: inline-block; text-decoration: none; transition: 0.3s; }
+        .btn:hover { background: #A5A58D; }
+        .card { background: white; border: 1px solid #B7B7A4; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 20px; margin: 15px 0; }
+        .text-center { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        table th, table td { padding: 12px 15px; text-align: left; border: 1px solid #B7B7A4; }
+        table th { background: #B7B7A4; color: #3F4238; }
+        table tr:nth-child(even) { background: #FFE8D6; }
+        .signup-link { margin-top: 20px; font-size: 0.9em; }
+        .signup-link a { color: #CB997E; text-decoration: none; font-weight: 600; }
+        .signup-link a:hover { text-decoration: underline; }
+        .hero { position: relative; background-image: url('/Content/images/res-main.png'); background-size: cover; background-position: center; height: 400px; display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 30px; }
+        .hero-text { position: relative; z-index: 10; background: rgba(104,112,92,0.9); color: white; padding: 30px 50px; border-radius: 10px; text-align: center; }
+        .hero-text h2 { color: white; margin-bottom: 10px; }
+        h2 { color: #68705C; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Satisfies: Using Sessions - Top-right icons with dynamic Login/Name + Cart count -->
+        <div class="header-icons">
+            <!-- User Profile Icon with dynamic Login/Name text -->
+            <div class="icon-item">
+                <img src="~/Content/images/user.png" alt="User" />
+                @if (Session["StudentID"] != null)
+                {
+                    <span>@Session["StudentName"]</span>
+                }
+                else
+                {
+                    <span>@Html.ActionLink("Log in", "Login", "Account")</span>
+                }
+            </div>
+            <!-- Shopping Cart Icon with dynamic count -->
+            <div class="icon-item">
+                <img src="~/Content/images/shopping-cart.png" alt="Cart" />
+                @{
+                    // Satisfies: Using Sessions - handles null gracefully, shows (0) if no items
+                    int cartCount = Session["CartCount"] != null ? (int)Session["CartCount"] : 0;
+                }
+                <span class="cart-count">(@cartCount)</span>
+            </div>
+        </div>
+        <h1 style="color: white;">University Restaurant</h1>
+        <p>Student Well-being</p>
+    </header>
+    <nav>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+            <li>@Html.ActionLink("Menu", "Index", "Menu")</li>
+            @if (Session["StudentID"] != null)
+            {
+                <li>@Html.ActionLink("Profile", "Index", "Profile")</li>
+            }
+        </ul>
+    </nav>
+    <main class="container">
+        @RenderBody()
+    </main>
+    <footer>
+        <p>&copy; @DateTime.Now.Year KAU Restaurant. All Rights Reserved.</p>
+        <p><a href="#top">Back to Top</a></p>
+    </footer>
+</body>
+</html>
