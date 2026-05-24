@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - KAU Restaurant</title>
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <style>
+        /* High Contrast Mode Styles */
+        body.high-contrast {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+
+        body.high-contrast .container {
+            background-color: #1a1a1a !important;
+            color: #ffffff !important;
+            border-color: #666666 !important;
+        }
+
+        body.high-contrast h1,
+        body.high-contrast h2,
+        body.high-contrast h3 {
+            color: #ffffff !important;
+        }
+
+        /* Problem Solution Grid Layout */
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        /* Footer Override for Internal Styles */
+        footer {
+            background-color: var(--leaf-green);
+            color: var(--white);
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        /* Responsive Grid */
+        @@media (max-width: 768px) {
+            .problem-solution {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Contrast Button */
+        .contrast-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+    </style>
+
+    <script>
+        // Embedded Script - Simple Version
+        function displayWelcome() {
+            const text = document.querySelector('.hero-text p');
+            if (text) {
+                const hour = new Date().getHours();
+                // Simple if-else for time-based message
+                if (hour < 12) {
+                    text.textContent = "Good Morning! Check our Breakfast Menu";
+                } else if (hour < 17) {
+                    text.textContent = "Good Afternoon! Enjoy our Lunch specials";
+                } else {
+                    text.textContent = "Good Evening! Try our Dinner combos";
+                }
+            }
+        }
+        // Run this function as soon as the page loads
+        document.addEventListener('DOMContentLoaded', displayWelcome);
+    </script>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-icons" style="display:flex; align-items:center;">
+            <partial name="_LoginPartial" />
+            <div class="icon-item" style="margin-left: 20px;">
+                <a href="/Cart"><img src="~/images/shopping-cart.png" alt="Cart" /></a>
+                <a href="/Cart"><span class="cart-count" id="cart-badge">(0)</span></a>
+            </div>
+        </div>
+        <h1 style="color: #ffff">University Restaurant</h1>
+        <p>Student Well-being</p>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <ul>
+            <li><a href="/" class="@(ViewData["Title"]?.ToString() == "Home" ? "active" : "")">Home</a></li>
+            <li><a href="/Menu" class="@(ViewData["Title"]?.ToString() == "Menu" ? "active" : "")">Menu</a></li>
+            <li><a href="/About" class="@(ViewData["Title"]?.ToString() == "About" ? "active" : "")">About Us</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+    
+    <partial name="_CookieConsentPartial" />
+
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2026 KAU Restaurant. All Rights Reserved.</p>
+        <p><a href="#top">Back to Top</a></p>
+    </footer>
+
+    <script>
+        // ── Update cart badge from localStorage ───────────────────────────
+        function updateCartBadge() {
+            var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            var total = cart.reduce(function (sum, item) { return sum + (item.qty || 0); }, 0);
+            var badge = document.getElementById('cart-badge');
+            if (badge) badge.textContent = '(' + total + ')';
+        }
+
+        // ── Show logged-in student name + logout link ──────────────────────
+        // Handled by _LoginPartial.cshtml and backend Identity
+
+        document.addEventListener('DOMContentLoaded', function () {
+            updateCartBadge();
+        });
+
+        // Live update if another tab changes localStorage (e.g. added item in menu tab)
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'cart') updateCartBadge();
+            if (e.key === 'studentName' || e.key === 'studentID') updateUserHeader();
+        });
+    </script>
+    <!-- External Script -->
+    <script src="~/js/script.js" asp-append-version="true"></script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+@if (ViewData["WelcomeMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 20px;">
+        @ViewData["WelcomeMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+        <!-- Hero Section -->
+        <section>
+            <div class="hero">
+                <div class="hero-text">
+                    <h2>Welcome to KAU Restaurant</h2>
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision Section - Problem & Solution -->
+        <section>
+            <h2 style="text-align: center;">Our Vision</h2>
+            <article class="problem-solution">
+                <div class="card">
+                    <h3>Problem Statement</h3>
+                    <p>Students at KAU University often struggle with <strong>long queues</strong> during peak hours,
+                        making it difficult to find time for meals between classes. Additionally, there is limited
+                        <strong>menu visibility</strong>, causing uncertainty about available options and wait times.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Project Solution</h3>
+                    <p>Our website provides <strong>real-time updates</strong> on menu availability and estimated wait
+                        times. Students can plan their visits better using our <strong>scheduling system</strong>,
+                        ensuring they get their meals without disrupting their academic schedules.</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- Explore Section - Image Link -->
+        <section>
+            <h2>Explore Our Restaurant</h2>
+            <div class="card text-center">
+                <p>Click on the image to learn more about us!</p>
+                <a href="/About"><img src="~/images/res-main.png" alt="KAU Restaurant Interior"
+                        style="max-width: 100%; height: auto; border: 2px solid var(--sand); border-radius: 8px; cursor: pointer;"></a>
+            </div>
+        </section>
+
+        <!-- Weekly Menu Section -->
+        <section>
+            <h2>Weekly Menu</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Main Dish</th>
+                        <th>Side Dish</th>
+                        <th>Price (SAR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sunday</td>
+                        <td>Grilled Chicken</td>
+                        <td>Rice & Salad</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>Monday</td>
+                        <td>Beef Kabsa</td>
+                        <td>Dates & Salad</td>
+                        <td>18</td>
+                    </tr>
+                    <tr>
+                        <td>Tuesday</td>
+                        <td>Fish Curry</td>
+                        <td>Naan & Rice</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        <td>Chicken Mandi</td>
+                        <td>Sambosa & Salad</td>
+                        <td>17</td>
+                    </tr>
+                    <tr>
+                        <td>Thursday</td>
+                        <td>Shawarma Plate</td>
+                        <td>Fries & Salad</td>
+                        <td>16</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Benefits Section -->
+        <section>
+            <h2>Why Choose KAU Restaurant?</h2>
+            <div class="card">
+                <h3>Student Benefits</h3>
+                <ol>
+                    <li>Real-time queue updates to save your valuable study time</li>
+                    <li>Full menu visibility with nutritional information</li>
+                    <li>Online ordering with scheduled pickup times</li>
+                    <li>Student discounts on all meal plans</li>
+                    <li>Multiple payment options including university meal cards</li>
+                    <li>Vegetarian and special dietary options available</li>
+                    <li>Feedback system to continuously improve our service</li>
+                </ol>
+            </div>
+        </section>

@@ -1,0 +1,534 @@
+@page
+@model Group9_CPIS_358_IS1_WEB.Pages.MenuModel
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<style>
+    body {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    /* ─── Category Filter Tabs ─── */
+    .filter-bar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 28px;
+        justify-content: center;
+    }
+
+    .filter-tab {
+        padding: 8px 22px;
+        border: 2px solid var(--sand);
+        border-radius: 30px;
+        background: white;
+        color: var(--dark-text);
+        cursor: pointer;
+        font-size: 0.88em;
+        font-weight: 600;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+
+    .filter-tab:hover,
+    .filter-tab.active {
+        background: var(--cocoa);
+        color: white;
+        border-color: var(--cocoa);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(203, 153, 126, 0.35);
+    }
+
+    /* ─── Section Headers ─── */
+    .category-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 36px 0 18px;
+    }
+
+    .category-header h3 {
+        color: var(--leaf-green);
+        font-size: 1.2em;
+        font-weight: 700;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .category-header::after {
+        content: '';
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(to right, var(--sand), transparent);
+        border-radius: 2px;
+    }
+
+    /* ─── Menu Grid ─── */
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 22px;
+        margin-bottom: 10px;
+    }
+
+    /* ─── Menu Item Card ─── */
+    .menu-item {
+        background: white;
+        border: 1.5px solid #ede9e3;
+        border-radius: 16px;
+        padding: 24px 20px 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .menu-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--cocoa), var(--leaf-green));
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+        transform-origin: left;
+    }
+
+    .menu-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(63, 66, 56, 0.15);
+        border-color: var(--cocoa);
+    }
+
+    .menu-item:hover::before {
+        transform: scaleX(1);
+    }
+
+    /* Food Emoji Badge */
+    .food-emoji {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .menu-item h3 {
+        color: var(--leaf-green);
+        margin-bottom: 8px;
+        font-size: 1em;
+        font-weight: 700;
+    }
+
+    .menu-item .description {
+        color: #888;
+        font-size: 0.83em;
+        line-height: 1.5;
+        margin-bottom: 14px;
+        min-height: 42px;
+    }
+
+    .menu-item .price {
+        font-size: 1.3em;
+        font-weight: 800;
+        color: var(--cocoa);
+        margin-bottom: 14px;
+    }
+
+    .menu-item .price span {
+        font-size: 0.65em;
+        font-weight: 500;
+        color: #aaa;
+    }
+
+    /* Add to Cart Button */
+    .add-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 22px;
+        background: linear-gradient(135deg, var(--cocoa), #b8836b);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: inherit;
+        transition: all 0.3s;
+        letter-spacing: 0.3px;
+    }
+
+    .add-btn:hover {
+        background: linear-gradient(135deg, var(--leaf-green), #4a5240);
+        transform: scale(1.05);
+        box-shadow: 0 6px 18px rgba(104, 112, 92, 0.35);
+    }
+
+    .add-btn:active {
+        transform: scale(0.97);
+    }
+
+    .add-btn.added {
+        background: linear-gradient(135deg, #2e7d32, #1b5e20);
+        pointer-events: none;
+    }
+
+    /* ─── Toast Notification ─── */
+    #toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(80px);
+        background: #3F4238;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 9999;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+        white-space: nowrap;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #toast.show {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── Cart Summary Bar (sticky) ─── */
+    #cart-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, var(--leaf-green), #4a5240);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 28px;
+        z-index: 999;
+        transform: translateY(100%);
+        transition: transform 0.4s ease;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    #cart-bar.visible {
+        transform: translateY(0);
+    }
+
+    #cart-bar-info {
+        font-size: 0.92em;
+        font-weight: 600;
+    }
+
+    #cart-bar-info strong {
+        font-size: 1.1em;
+    }
+
+    .cart-bar-btn {
+        background: white;
+        color: var(--leaf-green);
+        border: none;
+        padding: 10px 22px;
+        border-radius: 30px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+
+    .cart-bar-btn:hover {
+        background: var(--cocoa);
+        color: white;
+    }
+
+    /* ─── Page Header ─── */
+    .menu-header {
+        text-align: center;
+        padding: 20px 0 10px;
+    }
+
+    .menu-header h2 {
+        font-size: 2em;
+        color: var(--leaf-green);
+        margin-bottom: 8px;
+    }
+
+    .menu-header p {
+        color: #888;
+        font-size: 0.95em;
+    }
+
+    /* Responsive */
+    @@media (max-width: 600px) {
+        .menu-grid {
+            grid-template-columns: 1fr;
+        }
+
+        #cart-bar {
+            padding: 12px 16px;
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div style="padding-bottom: 80px;">
+
+    <div class="menu-header">
+        <h2>🍽 Our Menu</h2>
+        <p>Fresh, delicious meals prepared daily for KAU students</p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-bar">
+        <button class="filter-tab active" onclick="filterCategory('all', this)">All Items</button>
+        <button class="filter-tab" onclick="filterCategory('main', this)">🍛 Main Dishes</button>
+        <button class="filter-tab" onclick="filterCategory('side', this)">🥗 Side Dishes</button>
+        <button class="filter-tab" onclick="filterCategory('drink', this)">🥤 Beverages</button>
+    </div>
+
+    <!-- ── Main Dishes ── -->
+    <section data-category="main">
+        <div class="category-header">
+            <h3>🍛 Main Dishes</h3>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="main">
+                <span class="food-emoji">🍗</span>
+                <h3>Grilled Chicken</h3>
+                <p class="description">Tender grilled chicken served with fragrant rice and fresh garden salad</p>
+                <p class="price">15 <span>SAR</span></p>
+                <button class="add-btn" id="btn-grilled-chicken" onclick="addToCart('Grilled Chicken', 15, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="main">
+                <span class="food-emoji">🍖</span>
+                <h3>Beef Kabsa</h3>
+                <p class="description">Traditional Saudi rice dish with tender slow-cooked beef and aromatic spices
+                </p>
+                <p class="price">18 <span>SAR</span></p>
+                <button class="add-btn" id="btn-beef-kabsa" onclick="addToCart('Beef Kabsa', 18, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="main">
+                <span class="food-emoji">🐟</span>
+                <h3>Fish Curry</h3>
+                <p class="description">Fresh fish in rich curry sauce with golden naan bread on the side</p>
+                <p class="price">20 <span>SAR</span></p>
+                <button class="add-btn" id="btn-fish-curry" onclick="addToCart('Fish Curry', 20, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="main">
+                <span class="food-emoji">🍚</span>
+                <h3>Chicken Mandi</h3>
+                <p class="description">Slow-cooked whole chicken with fragrant saffron rice, a classic favourite</p>
+                <p class="price">17 <span>SAR</span></p>
+                <button class="add-btn" id="btn-chicken-mandi" onclick="addToCart('Chicken Mandi', 17, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="main">
+                <span class="food-emoji">🌯</span>
+                <h3>Shawarma Plate</h3>
+                <p class="description">Sliced chicken shawarma with crispy fries and fresh mixed salad</p>
+                <p class="price">16 <span>SAR</span></p>
+                <button class="add-btn" id="btn-shawarma-plate" onclick="addToCart('Shawarma Plate', 16, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="main">
+                <span class="food-emoji">🧆</span>
+                <h3>Falafel Plate</h3>
+                <p class="description">Crispy golden falafel with creamy hummus and warm pita bread</p>
+                <p class="price">12 <span>SAR</span></p>
+                <button class="add-btn" id="btn-falafel-plate" onclick="addToCart('Falafel Plate', 12, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Side Dishes ── -->
+    <section data-category="side">
+        <div class="category-header">
+            <h3>🥗 Side Dishes</h3>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="side">
+                <span class="food-emoji">🍟</span>
+                <h3>French Fries</h3>
+                <p class="description">Golden crispy fries served with ketchup and garlic sauce</p>
+                <p class="price">5 <span>SAR</span></p>
+                <button class="add-btn" id="btn-french-fries" onclick="addToCart('French Fries', 5, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="side">
+                <span class="food-emoji">🥗</span>
+                <h3>Coleslaw</h3>
+                <p class="description">Fresh creamy coleslaw with a sweet and tangy dressing</p>
+                <p class="price">4 <span>SAR</span></p>
+                <button class="add-btn" id="btn-coleslaw" onclick="addToCart('Coleslaw', 4, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="side">
+                <span class="food-emoji">🫘</span>
+                <h3>Hummus</h3>
+                <p class="description">Smooth chickpea dip drizzled with extra virgin olive oil and paprika</p>
+                <p class="price">6 <span>SAR</span></p>
+                <button class="add-btn" id="btn-hummus" onclick="addToCart('Hummus', 6, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Beverages ── -->
+    <section data-category="drink">
+        <div class="category-header">
+            <h3>🥤 Beverages</h3>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="drink">
+                <span class="food-emoji">🍊</span>
+                <h3>Fresh Juice</h3>
+                <p class="description">Freshly squeezed Orange, Apple, or Mango juice (seasonal)</p>
+                <p class="price">6 <span>SAR</span></p>
+                <button class="add-btn" id="btn-fresh-juice" onclick="addToCart('Fresh Juice', 6, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="drink">
+                <span class="food-emoji">🥭</span>
+                <h3>Mango Lassi</h3>
+                <p class="description">Chilled sweet yogurt-based mango drink, refreshing and creamy</p>
+                <p class="price">7 <span>SAR</span></p>
+                <button class="add-btn" id="btn-mango-lassi" onclick="addToCart('Mango Lassi', 7, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+            <div class="menu-item" data-category="drink">
+                <span class="food-emoji">💧</span>
+                <h3>Mineral Water</h3>
+                <p class="description">Chilled bottled mineral water — the healthy choice</p>
+                <p class="price">2 <span>SAR</span></p>
+                <button class="add-btn" id="btn-mineral-water" onclick="addToCart('Mineral Water', 2, this)">
+                    🛒 Add to Cart
+                </button>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Toast Notification -->
+<div id="toast"></div>
+
+<!-- Sticky Cart Bar -->
+<div id="cart-bar">
+    <div id="cart-bar-info">
+        🛒 <strong id="cart-bar-count">0</strong> items — <strong id="cart-bar-total">0 SAR</strong>
+    </div>
+    <button class="cart-bar-btn" onclick="window.location.href='/Cart'">View Cart →</button>
+</div>
+
+@section Scripts {
+<script>
+    // ─── Toast ────────────────────────────────────────────────────────
+    function showToast(msg) {
+        var t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+    }
+
+    // ─── Add to Cart ──────────────────────────────────────────────────
+    function addToCart(name, price, btn) {
+        var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        var existing = cart.find(function (item) { return item.name === name; });
+
+        if (existing) {
+            existing.qty += 1;
+            showToast('✓ ' + name + ' qty updated (' + existing.qty + ')');
+        } else {
+            cart.push({ name: name, price: price, qty: 1 });
+            showToast('✓ ' + name + ' added to cart!');
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartBadge();
+        updateCartBar(cart);
+
+        // Animate button
+        if (btn) {
+            var orig = btn.innerHTML;
+            btn.innerHTML = '✓ Added!';
+            btn.classList.add('added');
+            setTimeout(function () {
+                btn.innerHTML = orig;
+                btn.classList.remove('added');
+            }, 1500);
+        }
+    }
+
+    // ─── Update Badge & Sticky Bar ────────────────────────────────────
+    function updateCartBar(cart) {
+        if (!cart) cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        var totalQty = cart.reduce(function (s, i) { return s + (i.qty || 0); }, 0);
+        var totalSAR = cart.reduce(function (s, i) { return s + (i.price * i.qty); }, 0);
+        var bar = document.getElementById('cart-bar');
+        document.getElementById('cart-bar-count').textContent = totalQty;
+        document.getElementById('cart-bar-total').textContent = totalSAR + ' SAR';
+        if (totalQty > 0) {
+            bar.classList.add('visible');
+        } else {
+            bar.classList.remove('visible');
+        }
+    }
+
+    // ─── Category Filter ──────────────────────────────────────────────
+    function filterCategory(cat, tab) {
+        // Update active tab
+        document.querySelectorAll('.filter-tab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+
+        // Show/hide sections
+        document.querySelectorAll('section[data-category]').forEach(function (section) {
+            if (cat === 'all' || section.dataset.category === cat) {
+                section.style.display = '';
+                section.style.animation = 'fadeIn 0.4s ease';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+    }
+
+    // ─── Init ─────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+        updateCartBar(null);
+    });
+</script>
+}

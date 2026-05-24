@@ -1,0 +1,949 @@
+@page
+@model Group9_CPIS_358_IS1_WEB.Pages.CartModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    ViewData["Title"] = "Cart";
+    var isLoggedIn = SignInManager.IsSignedIn(User);
+}
+
+<style>
+    body {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    /* ─── Cart Table ─── */
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0 20px;
+    }
+
+    .cart-table th {
+        background: linear-gradient(135deg, var(--leaf-green), #4a5240);
+        color: white;
+        padding: 13px 16px;
+        text-align: left;
+        font-size: 0.88em;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+    }
+
+    .cart-table th:first-child {
+        border-radius: 10px 0 0 0;
+    }
+
+    .cart-table th:last-child {
+        border-radius: 0 10px 0 0;
+    }
+
+    .cart-table td {
+        padding: 14px 16px;
+        border-bottom: 1px solid #f0ece6;
+        vertical-align: middle;
+        font-size: 0.93em;
+    }
+
+    .cart-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .cart-table tr:hover td {
+        background: #fdf9f6;
+    }
+
+    /* Item name cell */
+    .item-name {
+        font-weight: 600;
+        color: var(--dark-text);
+    }
+
+    .item-emoji {
+        font-size: 1.4em;
+        margin-right: 8px;
+    }
+
+    /* Qty controls */
+    .qty-control {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #f5f2ee;
+        border-radius: 30px;
+        padding: 4px 6px;
+    }
+
+    .qty-btn {
+        width: 28px;
+        height: 28px;
+        background: var(--cocoa);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .qty-btn:hover {
+        background: var(--leaf-green);
+        transform: scale(1.1);
+    }
+
+    .qty-val {
+        width: 28px;
+        text-align: center;
+        font-weight: 700;
+        color: var(--dark-text);
+    }
+
+    /* Remove button */
+    .remove-btn {
+        background: transparent;
+        border: 1.5px solid #e57373;
+        color: #e57373;
+        padding: 5px 12px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+
+    .remove-btn:hover {
+        background: #e57373;
+        color: white;
+    }
+
+    /* ─── Order Summary Box ─── */
+    .order-summary {
+        background: linear-gradient(135deg, #f9f6f2, #fff5ee);
+        border: 1.5px solid #ede0d4;
+        border-radius: 16px;
+        padding: 24px 28px;
+        margin: 20px 0;
+    }
+
+    .order-summary h3 {
+        color: var(--leaf-green);
+        font-size: 1.05em;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #ede0d4;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .summary-row.total {
+        border-top: 2px solid var(--cocoa);
+        margin-top: 12px;
+        padding-top: 12px;
+        font-size: 1.15em;
+        font-weight: 800;
+        color: var(--dark-text);
+    }
+
+    .summary-row.total span {
+        color: var(--cocoa);
+    }
+
+    /* ─── Action Buttons ─── */
+    .cart-actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+
+    .btn-pay {
+        flex: 1;
+        padding: 15px 28px;
+        background: linear-gradient(135deg, #2e7d32, #1b5e20);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 1em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        letter-spacing: 0.3px;
+    }
+
+    .btn-pay:hover {
+        background: linear-gradient(135deg, #388e3c, #2e7d32);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(46, 125, 50, 0.35);
+    }
+
+    .btn-clear {
+        padding: 15px 22px;
+        background: transparent;
+        border: 2px solid #e57373;
+        color: #e57373;
+        border-radius: 14px;
+        font-size: 0.9em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+
+    .btn-clear:hover {
+        background: #e57373;
+        color: white;
+    }
+
+    /* ─── Empty Cart State ─── */
+    .empty-cart {
+        text-align: center;
+        padding: 60px 20px;
+        color: #aaa;
+    }
+
+    .empty-cart .empty-icon {
+        font-size: 4em;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .empty-cart h3 {
+        color: #bbb;
+        font-size: 1.3em;
+        margin-bottom: 8px;
+    }
+
+    .empty-cart p {
+        font-size: 0.9em;
+        margin-bottom: 24px;
+    }
+
+    /* ─── Payment Modal ─── */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: 9998;
+        backdrop-filter: blur(4px);
+        animation: fadeIn 0.2s ease;
+    }
+
+    .modal-overlay.open {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-box {
+        background: white;
+        border-radius: 20px;
+        padding: 36px 32px;
+        max-width: 480px;
+        width: 100%;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+        animation: slideUp 0.35s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .modal-box h2 {
+        color: var(--leaf-green);
+        font-size: 1.4em;
+        margin-bottom: 6px;
+    }
+
+    .modal-box .modal-subtitle {
+        color: #999;
+        font-size: 0.85em;
+        margin-bottom: 24px;
+    }
+
+    /* Payment Method Tabs */
+    .pay-methods {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 22px;
+    }
+
+    .pay-method-btn {
+        flex: 1;
+        padding: 12px 8px;
+        border: 2px solid #e0ddd8;
+        border-radius: 12px;
+        background: white;
+        cursor: pointer;
+        font-size: 0.82em;
+        font-weight: 600;
+        color: #888;
+        transition: all 0.2s;
+        font-family: inherit;
+        text-align: center;
+    }
+
+    .pay-method-btn:hover,
+    .pay-method-btn.active {
+        border-color: var(--cocoa);
+        color: var(--cocoa);
+        background: #fff8f4;
+    }
+
+    .pay-method-btn .pay-icon {
+        font-size: 1.5em;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    /* Payment Form Fields */
+    .pay-field {
+        margin-bottom: 16px;
+    }
+
+    .pay-field label {
+        display: block;
+        font-size: 0.82em;
+        font-weight: 600;
+        color: var(--leaf-green);
+        margin-bottom: 6px;
+    }
+
+    .pay-field input,
+    .pay-field select {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1.5px solid #e0ddd8;
+        border-radius: 10px;
+        font-size: 14px;
+        font-family: inherit;
+        transition: all 0.2s;
+        background: #fafaf8;
+    }
+
+    .pay-field input:focus,
+    .pay-field select:focus {
+        border-color: var(--leaf-green);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(104, 112, 92, 0.1);
+        background: #fff;
+    }
+
+    .pay-field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    /* Order Items in Modal */
+    .modal-items {
+        background: #f9f6f2;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+    .modal-item-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85em;
+        padding: 4px 0;
+        color: #555;
+    }
+
+    .modal-total-row {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 800;
+        font-size: 1.05em;
+        color: var(--dark-text);
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1.5px solid #ede0d4;
+    }
+
+    .modal-total-row span {
+        color: var(--cocoa);
+    }
+
+    /* Modal Buttons */
+    .modal-btns {
+        display: flex;
+        gap: 12px;
+        margin-top: 22px;
+    }
+
+    .btn-confirm-pay {
+        flex: 1;
+        padding: 14px;
+        background: linear-gradient(135deg, #2e7d32, #1b5e20);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1em;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+    }
+
+    .btn-confirm-pay:hover {
+        background: linear-gradient(135deg, #388e3c, #2e7d32);
+        box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+    }
+
+    .btn-cancel-pay {
+        padding: 14px 20px;
+        background: transparent;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        font-size: 0.9em;
+        font-weight: 600;
+        cursor: pointer;
+        color: #888;
+        font-family: inherit;
+        transition: all 0.2s;
+    }
+
+    .btn-cancel-pay:hover {
+        border-color: #aaa;
+        color: #555;
+    }
+
+    /* ─── Success Screen ─── */
+    .success-screen {
+        display: none;
+        text-align: center;
+        padding: 10px 0 20px;
+    }
+
+    .success-icon {
+        font-size: 4em;
+        margin-bottom: 14px;
+        display: block;
+        animation: pop 0.5s ease;
+    }
+
+    @@keyframes pop {
+        0% {
+            transform: scale(0);
+        }
+
+        80% {
+            transform: scale(1.15);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .success-screen h3 {
+        color: #2e7d32;
+        font-size: 1.4em;
+        margin-bottom: 8px;
+    }
+
+    .success-screen p {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+    .order-number {
+        display: inline-block;
+        background: #e8f5e9;
+        color: #2e7d32;
+        border-radius: 8px;
+        padding: 6px 16px;
+        font-weight: 700;
+        font-size: 1.1em;
+        margin: 12px 0;
+    }
+
+    /* ─── Toast ─── */
+    #toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(80px);
+        background: #3F4238;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 99999;
+        transition: transform 0.35s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    #toast.show {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    #toast.success-toast {
+        background: #2e7d32;
+    }
+
+    /* ─── Page title area ─── */
+    .cart-page-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .cart-page-header h2 {
+        margin: 0;
+        font-size: 1.6em;
+    }
+
+    .cart-count-pill {
+        background: var(--cocoa);
+        color: white;
+        font-size: 0.78em;
+        font-weight: 700;
+        padding: 3px 12px;
+        border-radius: 20px;
+    }
+
+    @@media (max-width: 600px) {
+        .pay-methods {
+            flex-wrap: wrap;
+        }
+
+        .pay-method-btn {
+            min-width: calc(50% - 5px);
+        }
+
+        .modal-box {
+            padding: 24px 20px;
+        }
+
+        .cart-actions {
+            flex-direction: column;
+        }
+
+        .btn-pay {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="cart-page-header">
+    <h2>🛒 Your Cart</h2>
+    <span class="cart-count-pill" id="cart-count-pill">0 items</span>
+</div>
+
+<div id="cart-content"></div>
+
+<div class="text-center mt-20" id="continue-shopping-btn">
+    <a href="/Menu" class="btn">← Continue Shopping</a>
+</div>
+
+<!-- ─── Toast ─── -->
+<div id="toast"></div>
+
+<!-- ─── Payment Modal ─── -->
+<div class="modal-overlay" id="pay-modal">
+    <div class="modal-box">
+        <!-- Payment Form View -->
+        <div id="payment-form-view">
+            <h2>💳 Checkout</h2>
+            <p class="modal-subtitle">Review your order and complete payment</p>
+
+            <!-- Order Summary in Modal -->
+            <div class="modal-items" id="modal-order-items"></div>
+
+            <!-- Payment Methods -->
+            <div class="pay-methods">
+                <button class="pay-method-btn active" id="method-card" onclick="switchMethod('card', this)">
+                    <span class="pay-icon">💳</span>Credit Card
+                </button>
+                <button class="pay-method-btn" id="method-stc" onclick="switchMethod('stc', this)">
+                    <span class="pay-icon">📱</span>STC Pay
+                </button>
+                <button class="pay-method-btn" id="method-mada" onclick="switchMethod('mada', this)">
+                    <span class="pay-icon">🏦</span>Mada
+                </button>
+                <button class="pay-method-btn" id="method-cash" onclick="switchMethod('cash', this)">
+                    <span class="pay-icon">💵</span>Cash
+                </button>
+            </div>
+
+            <!-- Card Fields -->
+            <div id="fields-card">
+                <div class="pay-field">
+                    <label>Cardholder Name</label>
+                    <input type="text" id="card-name" placeholder="Name on card">
+                </div>
+                <div class="pay-field">
+                    <label>Card Number</label>
+                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19"
+                        oninput="formatCardNumber(this)">
+                </div>
+                <div class="pay-field-row">
+                    <div class="pay-field">
+                        <label>Expiry Date</label>
+                        <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5"
+                            oninput="formatExpiry(this)">
+                    </div>
+                    <div class="pay-field">
+                        <label>CVV</label>
+                        <input type="password" id="card-cvv" placeholder="•••" maxlength="4">
+                    </div>
+                </div>
+            </div>
+
+            <!-- STC Pay Fields -->
+            <div id="fields-stc" style="display:none;">
+                <div class="pay-field">
+                    <label>STC Pay Mobile Number</label>
+                    <input type="tel" id="stc-number" placeholder="05XXXXXXXX" maxlength="10">
+                </div>
+                <p style="font-size:0.82em;color:#aaa;margin-top:8px;">You will receive a payment confirmation OTP
+                    on your phone.</p>
+            </div>
+
+            <!-- Mada Fields -->
+            <div id="fields-mada" style="display:none;">
+                <div class="pay-field">
+                    <label>Mada Card Number</label>
+                    <input type="text" id="mada-number" placeholder="4169 XXXX XXXX XXXX" maxlength="19"
+                        oninput="formatCardNumber(this)">
+                </div>
+                <div class="pay-field">
+                    <label>Card PIN</label>
+                    <input type="password" id="mada-pin" placeholder="••••" maxlength="4">
+                </div>
+            </div>
+
+            <!-- Cash Fields -->
+            <div id="fields-cash" style="display:none;">
+                <div
+                    style="background:#fff8e1;border-radius:12px;padding:16px;font-size:0.88em;color:#b8860b;border:1px solid #f0c040;">
+                    💡 <strong>Cash Payment:</strong> Your order will be placed and you pay at the restaurant
+                    counter when collecting.
+                </div>
+                <div class="pay-field" style="margin-top:14px;">
+                    <label>Pickup Time Preference</label>
+                    <select id="cash-pickup">
+                        <option value="">Select time slot</option>
+                        <option>ASAP (~15 min)</option>
+                        <option>In 30 minutes</option>
+                        <option>In 1 hour</option>
+                        <option>Scheduled time</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="payment-error"
+                style="color:#c62828;font-size:0.85em;font-weight:600;min-height:18px;margin-top:8px;"></div>
+
+            <div class="modal-btns">
+                <button class="btn-confirm-pay" onclick="processPayment()">🔒 Pay Now</button>
+                <button class="btn-cancel-pay" onclick="closePayModal()">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Success View -->
+        <div class="success-screen" id="payment-success-view">
+            <span class="success-icon">🎉</span>
+            <h3>Order Placed!</h3>
+            <p>Your order has been successfully placed.</p>
+            <div class="order-number" id="order-number-display">#KAU-0000</div>
+            <p style="margin-top:8px;font-size:0.85em;color:#aaa;">Please collect your order at the restaurant
+                counter.</p>
+            <div class="modal-btns" style="margin-top:20px;">
+                <button class="btn-confirm-pay" onclick="goHome()">🏠 Go to Home</button>
+                <button class="btn-cancel-pay" onclick="closePayModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Server-side auth state passed from Razor
+    var isLoggedIn = @(isLoggedIn ? "true" : "false");
+    var currentPayMethod = 'card';
+
+    // ─── Toast ────────────────────────────────────────────────────────
+    function showToast(msg, type) {
+        var t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = 'show ' + (type === 'success' ? 'success-toast' : '');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(function () { t.className = ''; }, 2800);
+    }
+
+    // ─── Load & Render Cart ───────────────────────────────────────────
+    function loadCart() {
+        var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        var container = document.getElementById('cart-content');
+        var pill = document.getElementById('cart-count-pill');
+        var continueBtnWrap = document.getElementById('continue-shopping-btn');
+
+        var totalQty = cart.reduce(function (s, i) { return s + (i.qty || 0); }, 0);
+        if (pill) pill.textContent = totalQty + ' item' + (totalQty !== 1 ? 's' : '');
+
+        if (cart.length === 0) {
+            container.innerHTML = '<div class="empty-cart"><span class="empty-icon">🛒</span><h3>Your cart is empty</h3><p>Browse our menu and add some delicious items!</p><a href="/Menu" class="btn">Browse Menu</a></div>';
+            continueBtnWrap.style.display = 'none';
+            return;
+        }
+
+        continueBtnWrap.style.display = 'block';
+
+        // Emoji lookup
+        var emojiMap = {
+            'Grilled Chicken': '🍗', 'Beef Kabsa': '🍖', 'Fish Curry': '🐟', 'Chicken Mandi': '🍚',
+            'Shawarma Plate': '🌯', 'Falafel Plate': '🧆', 'French Fries': '🍟', 'Coleslaw': '🥗',
+            'Hummus': '🫘', 'Fresh Juice': '🍊', 'Mango Lassi': '🥭', 'Mineral Water': '💧'
+        };
+
+        var grandTotal = 0;
+        var html = '<table class="cart-table"><thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th></tr></thead><tbody>';
+
+        for (var i = 0; i < cart.length; i++) {
+            var item = cart[i];
+            var subtotal = item.price * item.qty;
+            grandTotal += subtotal;
+            var emoji = emojiMap[item.name] || '🍽';
+
+            html += '<tr>';
+            html += '<td><span class="item-emoji">' + emoji + '</span><span class="item-name">' + item.name + '</span></td>';
+            html += '<td>' + item.price + ' SAR</td>';
+            html += '<td><div class="qty-control"><button class="qty-btn" onclick="changeQty(' + i + ', -1)" title="Decrease">−</button><span class="qty-val">' + item.qty + '</span><button class="qty-btn" onclick="changeQty(' + i + ', 1)" title="Increase">+</button></div></td>';
+            html += '<td><strong>' + subtotal + ' SAR</strong></td>';
+            html += '<td><button class="remove-btn" onclick="removeItem(' + i + ')">✕ Remove</button></td>';
+            html += '</tr>';
+        }
+        html += '</tbody></table>';
+
+        // Order Summary
+        var vatAmount = (grandTotal * 0.15).toFixed(2);
+        var grandWithVat = (grandTotal + parseFloat(vatAmount)).toFixed(2);
+
+        html += '<div class="order-summary">';
+        html += '<h3>📋 Order Summary</h3>';
+        html += '<div class="summary-row"><span>Subtotal (' + totalQty + ' items)</span><span>' + grandTotal + ' SAR</span></div>';
+        html += '<div class="summary-row"><span>VAT (15%)</span><span>' + vatAmount + ' SAR</span></div>';
+        html += '<div class="summary-row total"><span>Total</span><span>' + grandWithVat + ' SAR</span></div>';
+        html += '</div>';
+
+        // Action Buttons
+        html += '<div class="cart-actions">';
+        html += '<button class="btn-pay" onclick="openPayModal()">💳 Proceed to Payment</button>';
+        html += '<button class="btn-clear" onclick="clearCart()">🗑 Clear Cart</button>';
+        html += '</div>';
+
+        container.innerHTML = html;
+    }
+
+    // ─── Cart Mutations ───────────────────────────────────────────────
+    function changeQty(index, delta) {
+        var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        cart[index].qty += delta;
+        if (cart[index].qty <= 0) cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+        if (window.updateCartBadge) window.updateCartBadge();
+    }
+
+    function removeItem(index) {
+        var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        var name = cart[index].name;
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        showToast('Removed ' + name + ' from cart');
+        loadCart();
+        if (window.updateCartBadge) window.updateCartBadge();
+    }
+
+    function clearCart() {
+        if (confirm('Remove all items from your cart?')) {
+            localStorage.removeItem('cart');
+            showToast('Cart cleared');
+            loadCart();
+            if (window.updateCartBadge) window.updateCartBadge();
+        }
+    }
+
+    // ─── Payment Modal ────────────────────────────────────────────────
+    function openPayModal() {
+        var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+
+        // Check login using real Identity auth (not localStorage)
+        if (!isLoggedIn) {
+            if (confirm('You need to be logged in to pay. Go to login page?')) {
+                window.location.href = '/Login';
+            }
+            return;
+        }
+
+        // Populate modal order list
+        var grandTotal = 0;
+        var itemsHtml = '';
+        var vatAmount, grandWithVat;
+
+        for (var i = 0; i < cart.length; i++) {
+            var sub = cart[i].price * cart[i].qty;
+            grandTotal += sub;
+            itemsHtml += '<div class="modal-item-row"><span>' + cart[i].name + ' × ' + cart[i].qty + '</span><span>' + sub + ' SAR</span></div>';
+        }
+        vatAmount = (grandTotal * 0.15).toFixed(2);
+        grandWithVat = (grandTotal + parseFloat(vatAmount)).toFixed(2);
+        itemsHtml += '<div class="modal-total-row"><span>Total (incl. 15% VAT)</span><span>' + grandWithVat + ' SAR</span></div>';
+
+        document.getElementById('modal-order-items').innerHTML = itemsHtml;
+        document.getElementById('payment-form-view').style.display = 'block';
+        document.getElementById('payment-success-view').style.display = 'none';
+        document.getElementById('payment-error').textContent = '';
+
+        document.getElementById('pay-modal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePayModal() {
+        document.getElementById('pay-modal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // Close modal on overlay click
+    document.getElementById('pay-modal').addEventListener('click', function (e) {
+        if (e.target === this) closePayModal();
+    });
+
+    // ─── Switch Payment Method ────────────────────────────────────────
+    function switchMethod(method, btn) {
+        currentPayMethod = method;
+        document.querySelectorAll('.pay-method-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        ['card', 'stc', 'mada', 'cash'].forEach(function (m) {
+            document.getElementById('fields-' + m).style.display = (m === method) ? 'block' : 'none';
+        });
+        document.getElementById('payment-error').textContent = '';
+    }
+
+    // ─── Card Number Formatter ────────────────────────────────────────
+    function formatCardNumber(input) {
+        var v = input.value.replace(/\D/g, '').substring(0, 16);
+        input.value = v.match(/.{1,4}/g) ? v.match(/.{1,4}/g).join(' ') : v;
+    }
+    function formatExpiry(input) {
+        var v = input.value.replace(/\D/g, '').substring(0, 4);
+        if (v.length >= 2) v = v.slice(0, 2) + '/' + v.slice(2);
+        input.value = v;
+    }
+
+    // ─── Process Payment ──────────────────────────────────────────────
+    function processPayment() {
+        var errDiv = document.getElementById('payment-error');
+        errDiv.textContent = '';
+
+        var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        if (cart.length === 0) { errDiv.textContent = 'Your cart is empty.'; return; }
+
+        // Validate based on method
+        if (currentPayMethod === 'card') {
+            var name = document.getElementById('card-name').value.trim();
+            var number = document.getElementById('card-number').value.replace(/\s/g, '');
+            var expiry = document.getElementById('card-expiry').value.trim();
+            var cvv = document.getElementById('card-cvv').value.trim();
+            if (!name) { errDiv.textContent = '⚠ Please enter cardholder name.'; return; }
+            if (number.length < 16) { errDiv.textContent = '⚠ Please enter a valid 16-digit card number.'; return; }
+            if (!/^\d{2}\/\d{2}$/.test(expiry)) { errDiv.textContent = '⚠ Please enter expiry as MM/YY.'; return; }
+            if (cvv.length < 3) { errDiv.textContent = '⚠ Please enter a valid CVV.'; return; }
+        } else if (currentPayMethod === 'stc') {
+            var stcNum = document.getElementById('stc-number').value.trim();
+            if (!/^05\d{8}$/.test(stcNum)) { errDiv.textContent = '⚠ Enter a valid Saudi mobile number (05XXXXXXXX).'; return; }
+        } else if (currentPayMethod === 'mada') {
+            var madaNum = document.getElementById('mada-number').value.replace(/\s/g, '');
+            var madaPin = document.getElementById('mada-pin').value.trim();
+            if (madaNum.length < 16) { errDiv.textContent = '⚠ Enter a valid Mada card number.'; return; }
+            if (madaPin.length < 4) { errDiv.textContent = '⚠ Enter your 4-digit PIN.'; return; }
+        } else if (currentPayMethod === 'cash') {
+            var pickup = document.getElementById('cash-pickup').value;
+            if (!pickup) { errDiv.textContent = '⚠ Please select a pickup time.'; return; }
+        }
+
+        // Generate order number
+        var orderNum = 'KAU-' + Math.floor(1000 + Math.random() * 9000);
+
+        // Save order to localStorage history
+        var orders = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+        orders.push({
+            orderNum: orderNum,
+            items: cart,
+            method: currentPayMethod,
+            date: new Date().toLocaleString(),
+            studentID: localStorage.getItem('studentID')
+        });
+        localStorage.setItem('orderHistory', JSON.stringify(orders));
+
+        // Clear cart
+        localStorage.removeItem('cart');
+
+        // Show success
+        document.getElementById('order-number-display').textContent = '#' + orderNum;
+        document.getElementById('payment-form-view').style.display = 'none';
+        document.getElementById('payment-success-view').style.display = 'block';
+
+        // Update badge
+        if (window.updateCartBadge) window.updateCartBadge();
+    }
+
+    function goHome() {
+        closePayModal();
+        window.location.href = '/Index';
+    }
+
+    // ─── Init ─────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+        loadCart();
+    });
+</script>
+}
