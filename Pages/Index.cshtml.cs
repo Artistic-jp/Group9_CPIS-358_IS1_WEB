@@ -20,6 +20,7 @@ namespace Group9_CPIS_358_IS1_WEB.Pages
                 ViewData["WelcomeMessage"] = welcomeMessage;
                 // Clear it so it only shows once
                 HttpContext.Session.Remove("WelcomeMessage");
+                //welcome message
             }
         }
     }
