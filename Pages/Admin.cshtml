@@ -1,0 +1,218 @@
+@page
+@model Group9_CPIS_358_IS1_WEB.Pages.AdminModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    .admin-wrap {
+        font-family: 'Inter', sans-serif;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 30px 20px 50px;
+    }
+
+    .admin-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+
+    .admin-head h1 {
+        font-size: 1.9rem;
+        font-weight: 800;
+        color: #3F4238;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+
+    .admin-head .subtitle {
+        color: #9a9183;
+        font-size: 0.9rem;
+        margin-top: 4px;
+    }
+
+    .admin-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: linear-gradient(135deg, #CB997E 0%, #a07055 100%);
+        color: #fff;
+        border-radius: 30px;
+        padding: 6px 16px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+
+    .btn-logout {
+        background: #fff;
+        color: #a07055;
+        border: 1.5px solid #e4d6c9;
+        border-radius: 11px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .btn-logout:hover {
+        background: #a07055;
+        color: #fff;
+        border-color: #a07055;
+    }
+
+    .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 18px;
+        margin-bottom: 32px;
+    }
+
+    .stat-card {
+        background: #fff;
+        border: 1px solid #ece8e1;
+        border-radius: 18px;
+        padding: 22px 24px;
+        box-shadow: 0 8px 28px rgba(63, 66, 56, 0.07);
+    }
+
+    .stat-card .stat-label {
+        color: #9a9183;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-card .stat-value {
+        color: #3F4238;
+        font-size: 2.1rem;
+        font-weight: 800;
+        margin-top: 6px;
+    }
+
+    .stat-card .stat-accent { color: #CB997E; }
+
+    .panel {
+        background: #fff;
+        border: 1px solid #ece8e1;
+        border-radius: 18px;
+        box-shadow: 0 8px 28px rgba(63, 66, 56, 0.07);
+        overflow: hidden;
+    }
+
+    .panel-head {
+        padding: 18px 24px;
+        border-bottom: 1px solid #f0ece5;
+        font-weight: 700;
+        color: #3F4238;
+        font-size: 1.05rem;
+    }
+
+    table.admin-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table.admin-table th {
+        text-align: left;
+        padding: 14px 24px;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #9a9183;
+        background: #faf8f5;
+        font-weight: 700;
+    }
+
+    table.admin-table td {
+        padding: 14px 24px;
+        border-top: 1px solid #f3efe9;
+        color: #4a4d42;
+        font-size: 0.92rem;
+    }
+
+    table.admin-table tr:hover td { background: #fcfaf7; }
+
+    .id-chip {
+        display: inline-block;
+        background: #f3ece4;
+        color: #a07055;
+        border-radius: 8px;
+        padding: 3px 10px;
+        font-weight: 700;
+        font-size: 0.85rem;
+    }
+
+    .empty-row td {
+        text-align: center;
+        color: #b3ada3;
+        padding: 36px 24px;
+        font-style: italic;
+    }
+</style>
+
+<div class="admin-wrap">
+    <div class="admin-head">
+        <div>
+            <span class="admin-badge">★ ADMIN</span>
+            <h1>Admin Dashboard</h1>
+            <p class="subtitle">Manage and review registered restaurant accounts</p>
+        </div>
+        <form method="post" asp-page-handler="Logout">
+            <button type="submit" class="btn-logout">Log out →</button>
+        </form>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-label">Registered Users</div>
+            <div class="stat-value stat-accent">@Model.TotalUsers</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Status</div>
+            <div class="stat-value" style="font-size:1.4rem; color:#2e7d32;">● Online</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-head">Registered Students (@Model.TotalUsers)</div>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Users.Count == 0)
+                {
+                    <tr class="empty-row">
+                        <td colspan="3">No registered users yet.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var u in Model.Users)
+                    {
+                        <tr>
+                            <td><span class="id-chip">@u.StudentId</span></td>
+                            <td>@u.FullName</td>
+                            <td>@u.Email</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
