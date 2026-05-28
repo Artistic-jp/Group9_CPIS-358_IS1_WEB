@@ -37,6 +37,13 @@ namespace Group9_CPIS_358_IS1_WEB.Pages
         {
             if (ModelState.IsValid)
             {
+                // Hardcoded admin shortcut: 0000 / 0000 opens the admin dashboard.
+                if (Input.StudentId == "0000" && Input.Password == "0000")
+                {
+                    HttpContext.Session.SetString("IsAdmin", "true");
+                    return RedirectToPage("/Admin");
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(Input.StudentId, Input.Password, isPersistent: true, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
